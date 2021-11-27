@@ -1,0 +1,54 @@
+version: "3.7"
+
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+    networks:
+      - reverse-proxy
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+  hillel-php-fpm:
+    dns:
+      - 8.8.8.8
+    build:
+      context: ../
+      dockerfile: docker/php/Dockerfile
+      args:
+        - UID=1000
+        - GID=1000
+    user: 1000:1000
+    volumes:
+      - ../:/app
+    restart: on-failure
+    working_dir: /app
+    env_file:
+      - .env
+    networks:
+      - hillel-site
+
+  hillel-nginx:
+    image: nginx:1.19-alpine
+    volumes:
+      - ../public:/app
+      - ../docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - hillel-php-fpm
+    networks:
+      hillel-site:
+      reverse-proxy:
+      main:
+        aliases:
+            - hillel.local
+    environment:
+      - VIRTUAL_HOST=hillel.local
+
+networks:
+  hillel-site:
+  reverse-proxy:
+    external: true
+  main:
+    external:
+      name: hillel_default
