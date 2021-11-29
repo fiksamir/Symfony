@@ -11,8 +11,14 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class QuestionController extends AbstractController
 {
+    #[Route('/', name: 'homepage', methods: [Request::METHOD_GET])]
+    public function homepage(): Response
+    {
+        return $this->render('homepage/index.html.twig');
+    }
+
     /**
-     * @Route("/questions/{slug}", name="index", methods={"GET"})
+     * @Route("/questions/{slug}", name="question_show", methods={"GET"})
      */
     public function index(Request $request, string $slug): Response
     {
