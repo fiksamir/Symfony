@@ -45,6 +45,20 @@ services:
     environment:
       - VIRTUAL_HOST=hillel.local
 
+  hillel-nodejs:
+    dns:
+      - 8.8.8.8
+    image: node:14
+    user: "1000:1000"
+    volumes:
+      - ../:/app:cached
+    working_dir: /app
+    command: /bin/sh -c "yarn && yarn dev-server"
+    networks:
+      - hillel-site
+    ports:
+      - "3010:3010"
+
 networks:
   hillel-site:
   reverse-proxy:
