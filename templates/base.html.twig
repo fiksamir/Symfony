@@ -8,6 +8,9 @@
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Spartan&display=swap">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
             <link rel="stylesheet" href="/css/app.css">
+            <link href='http://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet' type='text/css'>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+                  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         {% endblock %}
     </head>
     <body>
@@ -25,6 +28,9 @@
         </footer>
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
+            <script type="text/javascript" src="{{ asset('build/app.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('build/runtime.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('build/vendors-node_modules_symfony_stimulus-bridge_dist_index_js-node_modules_core-js_modules_es_ob-bca252.js') }}"></script>
         {% endblock %}
     </body>
 </html>
