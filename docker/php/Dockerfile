@@ -4,11 +4,12 @@ ARG UID
 ARG GID
 
 RUN apk update && apk upgrade \
-    && apk add --no-cache bash
+    && apk add --no-cache bash libpq-dev
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN mkdir /.composer
 RUN chmod -R 0777 /.composer
+RUN docker-php-ext-install pdo pdo_pgsql
 
 WORKDIR /app
 

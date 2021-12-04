@@ -8,6 +8,7 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+/docker/pgdata/
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/

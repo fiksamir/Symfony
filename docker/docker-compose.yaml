@@ -59,6 +59,22 @@ services:
     ports:
       - "3010:3010"
 
+  postgres:
+    image: postgres:13.3
+    restart: always
+    environment:
+      POSTGRES_DB: "space_battle"
+      POSTGRES_USER: "space_battle"
+      POSTGRES_PASSWORD: "space_battle"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ../InitDatabase:/docker-entrypoint-initdb.d
+      - .:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - hillel-site
+
 networks:
   hillel-site:
   reverse-proxy:
@@ -66,3 +82,6 @@ networks:
   main:
     external:
       name: hillel_default
+
+volumes:
+  postgres:
