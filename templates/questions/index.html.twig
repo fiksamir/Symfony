@@ -17,7 +17,7 @@
                                 <h1 class="q-title-show">{{ question }}</h1>
                                 <div class="q-display p-3">
                                     <i class="fa fa-quote-left mr-3"></i>
-                                    <p class="d-inline">I've been turned into a cat, any thoughts on how to turn back? While I'm adorable, I don't really care for cat food.</p>
+                                    <p class="d-inline">{{ questionText|raw }}</p>
                                     <p class="pt-4"><strong>--Tisha</strong></p>
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                             <img src="{{ asset('images/tisha.png') }}" width="50" height="50">
                         </div>
                         <div class="mr-3 pt-2">
-                            {{ answer }}
+                            {{ answer|markdown }}
                             <p>-- Mallory</p>
                         </div>
                         <div class="vote-arrows flex-fill pt-2" style="min-width: 90px;">
