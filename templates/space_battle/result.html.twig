@@ -1,0 +1,81 @@
+{% block body %}
+    <div class="container">
+        <div>
+            <h2 class="text-center">Столкновение:</h2>
+            <p class="text-center">
+                <br>
+                {{ ship1Quantity }} {{ ship1 }}{% if (ship1Quantity > 1) %}s{% endif %}
+                VS.
+                {{ ship2Quantity }} {{ ship2 }}{% if (ship2Quantity > 1) %}s{% endif %}
+            </p>
+        </div>
+        <div class="result-box center-block">
+            <h3 class="text-center audiowide">
+                Winner:
+                {% if (isThereAWinner) %}
+                    {{ outcome.winningShip }}
+                {% else %}
+                    Ничья
+                {% endif %}
+            </h3>
+            <p class="text-center">
+                {% if not (isThereAWinner) %}
+                    Корабли уничтожили друг друга в эпической битве.
+                {% else %}
+                    The
+                    {{ outcome.winningShip }}
+                    {% if (isUsedJediPowers) %}
+                        использовал свои Силу Джедая для ошеломляющей победы!
+                    {% else %}
+                        одолели и уничтожили
+                        {{ outcome.losingShip }}s
+                    {% endif %}
+                {% endif %}
+            </p>
+            <p class="text-center">
+                Здоровье кораблей после битвы:
+            </p>
+            <div class="row justify-content-center">
+                <div class="col-4">
+                    <dl>
+                        <dt>
+                            {{ outcome.winningShip }}
+                        </dt>
+                        <dd>
+                            {{ outcome.winningShipHealth }}
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-4">
+                    <dl>
+                        <dt>
+                            {{ outcome.losingShip }}
+                        </dt>
+                        <dd>
+                            {{ outcome.losingShipHealth }}
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <a href="#battle-box" class="scrollto"><p class="text-center"><i class="fa fa-undo"></i> Снова в бой</p></a>
+        {# <a href="/history.php"><p class="text-center"><i class="fa fa-history"></i> История сражений</p></a> #}
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $(function () {
+            $('.scrollto').on('click', function () {
+                $('html, body').animate({
+                    scrollTop: $('.battle-box').offset().top
+                }, {
+                    duration: 1000,
+                    easing: "linear"
+                });
+            })
+        })
+    </script>
+{% endblock %}

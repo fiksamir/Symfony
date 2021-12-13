@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Космическая битва{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    {% if (errorMessage|length > 0) %}
+        <div>
+            {{ errorMessage }}
+        </div>
+    {% endif %}
+    <div class="container">
+        <div class="page-header">
+            <h1>Космическая битва</h1>
+        </div>
+        <table class="table table-hover">
+            <caption><i class="fa fa-rocket"></i> Корабли готовы к следующей Миссии</caption>
+            <thead>
+            <tr>
+                <th>Корабль</th>
+                <th>Атака</th>
+                <th>Сила Джедая</th>
+                <th>Прочность</th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for ship in ships %}
+                <tr>
+                    <td>{{ ship.getName() }} {{ ship.getNameAndSpecs(true) }}</td>
+                    <td>{{ ship.getWeaponPower() }}</td>
+                    <td>{{ ship.getJediFactor() }}</td>
+                    <td>{{ ship.getStrength() }}</td>
+                    <td>{{ ship.getType() }}</td>
+                    <td>
+                        {% if (ship.isFunctional()) %}
+                            <i class="fa fa-sun-o"></i>
+                        {% else %}
+                            <i class="fa fa-cloud"></i>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="battle-box center-block border" id="battle-box">
+            <div>
+                <h2 class="text-center">Миссия</h2>
+                <input class="center-block form-control text-field" type="text" id="ship1_quantity"
+                       placeholder="Enter Number of Ships"/>
+                <select class="center-block form-control btn drp-dwn-width btn-default dropdown-toggle"
+                        id="ship1_id">
+                    <option value="">Выберите корабль</option>
+                    {% for ship in ships %}
+                        <option value="{{ ship.getId() }}">{{ ship }}</option>
+                    {% endfor %}
+                </select>
+                <br>
+                <p class="text-center">Противник</p>
+                <br>
+                <input class="center-block form-control text-field" type="text" id="ship2_quantity"
+                       placeholder="Enter Number of Ships"/>
+                <select class="center-block form-control btn drp-dwn-width btn-default dropdown-toggle"
+                        id="ship2_id">
+                    <option value="">Выберите корабль</option>
+                    {% for ship in ships %}
+                        <option value="{{ ship.getId() }}">{{ ship }}</option>
+                    {% endfor %}
+                </select>
+                <div class="text-center">
+                    <label for="battle_type">Battle type</label>
+                    <select name="battle_type" id="battle_type" class="form-control drp-dwn-width center-block">
+                        {% for type, desc in battleTypes %}
+                            <option value="{{ type }}">{{ desc }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <br>
+                <button class="btn btn-md btn-danger center-block" id="battle">В атаку!</button>
+            </div>
+        </div>
+        {# <a href="/history.php"><p class="text-center"><i class="fa fa-history"></i> История сражений</p></a> #}
+    </div>
+    <div id="battle_result"></div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/battle_result_show.js') }}"></script>
+{% endblock %}
