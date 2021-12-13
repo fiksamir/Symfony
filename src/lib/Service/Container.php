@@ -39,7 +39,7 @@ class Container
             if ($this->configuration['source'] === 'PDO'){
                 $this->shipStorage = new PdoShipStorage($this->getPDO());
             } elseif ($this->configuration['source'] === 'JSON') {
-                $this->shipStorage = new JsonShipStorage('./resources/ships.json');
+                $this->shipStorage = new JsonShipStorage('../src/resources/ships.json');
             }
 //            $this->shipStorage = new LoggableShipStorage($this->shipStorage);
         }

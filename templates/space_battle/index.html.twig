@@ -34,7 +34,7 @@
             <tbody>
             {% for ship in ships %}
                 <tr>
-                    <td>{{ ship.getName() }} {{ ship.getNameAndSpecs(true) }}</td>
+                    <td>{{ ship.getNameAndSpecs(true)|raw }}</td>
                     <td>{{ ship.getWeaponPower() }}</td>
                     <td>{{ ship.getJediFactor() }}</td>
                     <td>{{ ship.getStrength() }}</td>
@@ -59,7 +59,7 @@
                         id="ship1_id">
                     <option value="">Выберите корабль</option>
                     {% for ship in ships %}
-                        <option value="{{ ship.getId() }}">{{ ship }}</option>
+                        <option value="{{ ship.getId() }}">{{ ship|raw }}</option>
                     {% endfor %}
                 </select>
                 <br>
@@ -71,7 +71,7 @@
                         id="ship2_id">
                     <option value="">Выберите корабль</option>
                     {% for ship in ships %}
-                        <option value="{{ ship.getId() }}">{{ ship }}</option>
+                        <option value="{{ ship.getId() }}">{{ ship|raw }}</option>
                     {% endfor %}
                 </select>
                 <div class="text-center">

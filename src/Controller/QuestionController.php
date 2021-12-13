@@ -20,7 +20,6 @@ class QuestionController extends AbstractController
         $this->markdownService = $markdownService;
     }
 
-
     #[Route('/', name: 'homepage', methods: [Request::METHOD_GET])]
     public function homepage(): Response
     {
@@ -32,25 +31,25 @@ class QuestionController extends AbstractController
     {
         $ships = [
             'starfighter' => [
-                'name' => 'Jedi Starfighter',
+                'name' => $this->markdownService->parse('**Jedi Starfighter**'),
                 'weapon_power' => 5,
                 'jedi_factor' => 15,
                 'strength' => 30,
             ],
             'cloakshape_fighter' => [
-                'name' => 'CloakShape Fighter',
+                'name' => $this->markdownService->parse('**CloakShape Fighter**'),
                 'weapon_power' => 2,
                 'jedi_factor' => 2,
                 'strength' => 70,
             ],
             'super_star_destroyer' => [
-                'name' => 'Super Star Destroyer',
+                'name' => $this->markdownService->parse('**Super Star Destroyer**'),
                 'weapon_power' => 70,
                 'jedi_factor' => 0,
                 'strength' => 500,
             ],
             'rz1_a_wing_interceptor' => [
-                'name' => 'RZ-1 A-wing interceptor',
+                'name' => $this->markdownService->parse('**RZ-1 A-wing interceptor**'),
                 'weapon_power' => 4,
                 'jedi_factor' => 4,
                 'strength' => 50,
