@@ -45,8 +45,8 @@ class FibonacciCommand extends Command
                 continue;
             }
             $fib = $this->fibonacci($arg1);
-            $io->text('Position in Fibonacci Sequence is: ' . $arg1 . PHP_EOL);
-            $io->text('Value is: ' . $fib . PHP_EOL);
+            $io->text('Position in Fibonacci Sequence is: ' . $arg1);
+            $io->text('Value is: ' . $fib);
             sleep(rand(5, 10));
             $arg1 += $fib + rand(1, 5);
         }
