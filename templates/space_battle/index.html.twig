@@ -34,13 +34,13 @@
             <tbody>
             {% for ship in ships %}
                 <tr>
-                    <td>{{ ship.getName() }} {{ ship.getNameAndSpecs(true) }}</td>
-                    <td>{{ ship.getWeaponPower() }}</td>
-                    <td>{{ ship.getJediFactor() }}</td>
-                    <td>{{ ship.getStrength() }}</td>
-                    <td>{{ ship.getType() }}</td>
+                    <td>{{ ship.name }} {{ ship.nameAndSpecs(true) }}</td>
+                    <td>{{ ship.weaponPower }}</td>
+                    <td>{{ ship.jediFactor }}</td>
+                    <td>{{ ship.strength }}</td>
+                    <td>{{ ship.type }}</td>
                     <td>
-                        {% if (ship.isFunctional()) %}
+                        {% if (ship.functional) %}
                             <i class="fa fa-sun-o"></i>
                         {% else %}
                             <i class="fa fa-cloud"></i>
@@ -59,7 +59,7 @@
                         id="ship1_id">
                     <option value="">Выберите корабль</option>
                     {% for ship in ships %}
-                        <option value="{{ ship.getId() }}">{{ ship }}</option>
+                        <option value="{{ ship.id }}">{{ ship }}</option>
                     {% endfor %}
                 </select>
                 <br>
@@ -71,7 +71,7 @@
                         id="ship2_id">
                     <option value="">Выберите корабль</option>
                     {% for ship in ships %}
-                        <option value="{{ ship.getId() }}">{{ ship }}</option>
+                        <option value="{{ ship.id }}">{{ ship }}</option>
                     {% endfor %}
                 </select>
                 <div class="text-center">
