@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Service\MarkdownService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,6 +12,15 @@ use App\lib\Service\BattleManager;
 
 class SpaceBattleController extends AbstractController
 {
+
+    private MarkdownService $markdownService;
+
+    public function __construct(
+        MarkdownService $markdownService
+    ) {
+        $this->markdownService = $markdownService;
+    }
+
     #[Route('/space/battle', name: 'space_battle')]
     public function index(): Response
     {
@@ -36,6 +46,9 @@ class SpaceBattleController extends AbstractController
                 'bad_quantities' => 'Вы уверены в количестве кораблей дле сражения?',
                 default => 'Что-то с войском не так. Попробуйте снова.',
             };
+        }
+        foreach ($ships as $ship){
+            $ship->name = $this->markdownService->parse('***'.$ship->name.'***');
         }
         return $this->render('space_battle/index.html.twig', [
             'errorMessage' => $errorMessage,
