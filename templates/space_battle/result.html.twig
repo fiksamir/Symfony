@@ -12,19 +12,19 @@
         <div class="result-box center-block">
             <h3 class="text-center audiowide">
                 Winner:
-                {% if (isThereAWinner) %}
+                {% if (outcome.thereAWinner) %}
                     {{ outcome.winningShip }}
                 {% else %}
                     Ничья
                 {% endif %}
             </h3>
             <p class="text-center">
-                {% if not (isThereAWinner) %}
+                {% if not (outcome.thereAWinner) %}
                     Корабли уничтожили друг друга в эпической битве.
                 {% else %}
                     The
                     {{ outcome.winningShip }}
-                    {% if (isUsedJediPowers) %}
+                    {% if (outcome.usedJediPowers) %}
                         использовал свои Силу Джедая для ошеломляющей победы!
                     {% else %}
                         одолели и уничтожили

@@ -103,8 +103,6 @@ class SpaceBattleController extends AbstractController
 //        dd($outcome);
         return $this->render('space_battle/result.html.twig', [
             'outcome' => $outcome,
-            'isThereAWinner' => $outcome->isThereAWinner(),
-            'isUsedJediPowers' => $outcome->isUsedJediPowers(),
             'ship1' => $ship1,
             'ship2' => $ship2,
             'ship1Quantity' => $ship1Quantity,
