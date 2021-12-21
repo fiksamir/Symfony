@@ -63,12 +63,19 @@ class QuestionController extends AbstractController
             ],
         ];
         foreach ($ships as $ship) {
-            $shipObj = (new Ships())
-                ->setName($ship['name'])
-                ->setStrength($ship['strength'])
-                ->setJediFactor($ship['jedi_factor'])
-                ->setWeaponPower($ship['weapon_power']);
-            $this->em->persist($shipObj);
+            $shipObj = $this->em->getRepository(Ships::class)->findOneByName($ship['name']);
+            if(!$shipObj) {
+                $shipObj = (new Ships())
+                    ->setName($ship['name'])
+                    ->setStrength($ship['strength'])
+                    ->setJediFactor($ship['jedi_factor'])
+                    ->setWeaponPower($ship['weapon_power']);
+                $this->em->persist($shipObj);
+            } else {
+                $shipObj->setStrength($ship['strength'])
+                    ->setJediFactor($ship['jedi_factor'])
+                    ->setWeaponPower($ship['weapon_power']);
+            }
             $this->em->flush();
         }
         return new Response('ShipsAdd');
