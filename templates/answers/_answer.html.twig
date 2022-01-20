@@ -1,0 +1,44 @@
+<li class="mb-4">
+    {% if showQuestion|default(false) %}
+        <a href="{{ path('question_show', {slug: answer.question.slug}) }}" class="mb-1 link-secondary">
+            <strong>Question: </strong>
+            {{ answer.question.question|u.truncate(88, '...') }}
+        </a>
+    {% endif %}
+    <div class="d-flex justify-content-center">
+        <div class="mr-2 pt-2">
+            <img src="{{ asset('images/tisha.png') }}" width="50" height="50">
+        </div>
+        <div class="mr-3 pt-2">
+            {{ answer.content|markdown }}
+            <p>-- {{ answer.username }}</p>
+        </div>
+        <div class="vote-arrows flex-fill pt-2" style="min-width: 90px;"
+                {{ stimulus_controller('answer-vote', {
+                    url: path('answer_vote', {
+                        id: answer.id
+                    })
+                }) }}
+        >
+            <button class="vote-up btn btn-link"
+                    name="direction"
+                    value="up"
+                    {{ stimulus_action('answer-vote', 'clickVote') }}
+            >
+                <i class="far fa-arrow-alt-circle-up"></i>
+            </button>
+            <button class="vote-down btn btn-link"
+                    name="direction"
+                    value="down"
+                    {{ stimulus_action('answer-vote', 'clickVote    ') }}
+            >
+                <i class="far fa-arrow-alt-circle-down"></i>
+            </button>
+            <span>
+                                <span {{ stimulus_target('answer-vote', 'voteTotal') }}>
+                                    {{ answer.votes > 0 ? '+' ~ answer.votes : answer.votes }}
+                                </span>
+                            </span>
+        </div>
+    </div>
+</li>

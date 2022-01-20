@@ -74,6 +74,33 @@ services:
     networks:
       - hillel-site
 
+  hillel-db:
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
+    restart: on-failure
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: hillel
+      MYSQL_USER: hillel
+      MYSQL_PASSWORD: hillel
+    ports:
+      - "3310:3306"
+    networks:
+      - hillel-site
+    depends_on:
+      - hillel-php-fpm
+
+  adminer:
+    image: adminer
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    networks:
+      - main
+      - hillel-site
+    depends_on:
+      - hillel-db
+
 networks:
   hillel-site:
   reverse-proxy:

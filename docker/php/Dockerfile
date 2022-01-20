@@ -4,7 +4,7 @@ ARG UID
 ARG GID
 
 RUN apk update && apk upgrade \
-    && apk add --no-cache bash libpq-dev
+    && apk add --no-cache bash
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN mkdir /.composer
@@ -15,6 +15,7 @@ WORKDIR /app
 
 COPY . .
 
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 RUN addgroup -g ${UID} hillel && \
     adduser -D -u ${GID} -G hillel hillel && \
     mkdir -p /home/hillel/.ssh && \

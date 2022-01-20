@@ -4,26 +4,60 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Ships;
+use App\Entity\Question;
+use App\Repository\AnswerRepository;
+use App\Repository\QuestionRepository;
 use App\Service\MarkdownService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\AsciiSlugger;
+use Symfony\Component\String\UnicodeString;
+
+use function Symfony\Component\String\u;
 
 class QuestionController extends AbstractController
 {
     private MarkdownService $markdownService;
     private EntityManagerInterface $em;
+    private QuestionRepository $questionRepository;
 
     public function __construct(
-        MarkdownService        $markdownService,
-        EntityManagerInterface $em
-    )
-    {
+        MarkdownService $markdownService,
+        EntityManagerInterface $em,
+        QuestionRepository $questionRepository,
+        private AnswerRepository $answerRepository
+    ) {
         $this->markdownService = $markdownService;
         $this->em = $em;
+        $this->questionRepository = $questionRepository;
+    }
+
+    #[Route('/questions/new', name: 'question_create', methods: ['GET'])]
+    public function new(Request $request): Response
+    {
+        $session = $request->getSession();
+        $session->set(
+            static::QUESTION_COUNTER,
+            ($session->get(static::QUESTION_COUNTER) ?? 0) + 1
+        );
+
+        $question = (new Question())
+            ->setName('New Question')
+            ->setSlug(sprintf('new-question-%d', rand(1, 100)))
+            ->setQuestion('Question text')
+        ;
+
+        if (rand(0, 10) < 2) {
+            $question->setAskedAt(new \DateTimeImmutable(sprintf('-%d days', rand(3, 10))));
+        }
+        $this->em->persist($question);
+        $this->em->flush();
+
+        return new Response('New question');
     }
 
     #[Route('/', name: 'homepage', methods: [Request::METHOD_GET])]
@@ -117,25 +151,17 @@ class QuestionController extends AbstractController
     /**
      * @Route("/questions/{slug}", name="question_show", methods={"GET"})
      */
-    public function index(
-        string $slug
-    ): Response
+    public function index(Question $question): Response
     {
-        $answers = [
-            '`Answer` 1',
-            'Answer 2',
-            'Answer 3',
-            'Answer 4',
-        ];
-        $questionText = 'I\'ve been turned into a cat, any thoughts on how to turn back? While I\'m **adorable**, I don\'t really care for cat food';
-        $questionText = $this->markdownService->parse($questionText);
+//        $question = $this->questionRepository->findOneBy(['slug' => $slug]);
+//        if ($question === null) {
+//            throw new NotFoundHttpException();
+//        }
 
         return $this->render(
             'questions/index.html.twig',
             [
-                'question' => ucfirst(str_replace('-', ' ', $slug)),
-                'questionText' => $questionText,
-                'answers' => $answers,
+                'question' => $question,
             ]
         );
     }
