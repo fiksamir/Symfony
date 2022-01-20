@@ -26,20 +26,20 @@ class AppFixtures extends Fixture
         $post->addPostTag($postTag);
         $tag->addPostTag($postTag);
         $manager->persist($post);
-//        QuestionFactory::createMany(20);
-//
-//        QuestionFactory::new()
-//            ->unpublished()
-//            ->many(5)
-//            ->create()
-//        ;
-//
-//        AnswerFactory::createMany(300);
-//        AnswerFactory::new()
-//            ->needsApproval()
-//            ->many(50)
-//            ->create()
-//        ;
+        QuestionFactory::createMany(20);
+
+        QuestionFactory::new()
+            ->unpublished()
+            ->many(5)
+            ->create()
+        ;
+
+        AnswerFactory::createMany(300);
+        AnswerFactory::new()
+            ->needsApproval()
+            ->many(50)
+            ->create()
+        ;
 
         $manager->flush();
     }
