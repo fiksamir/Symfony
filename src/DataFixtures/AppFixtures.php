@@ -8,6 +8,7 @@ use App\Entity\Answer;
 use App\Entity\Post;
 use App\Entity\PostTag;
 use App\Entity\Question;
+use App\Entity\QuestionTag;
 use App\Entity\Tag;
 use App\Factory\AnswerFactory;
 use App\Factory\QuestionFactory;
@@ -33,6 +34,9 @@ class AppFixtures extends Fixture
             ->many(5)
             ->create()
         ;
+
+        $questionTag = new QuestionTag();
+        $tag->addQuestionTag($questionTag);
 
         AnswerFactory::createMany(300);
         AnswerFactory::new()

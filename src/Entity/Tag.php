@@ -33,14 +33,14 @@ class Tag
     private $postTags;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Question::class, mappedBy="tag")
+     * @ORM\OneToMany(targetEntity=QuestionTag::class, mappedBy="tag", orphanRemoval=true, cascade={"persist"})
      */
-    private $questions;
+    private $questionTags;
 
     public function __construct()
     {
         $this->postTags = new ArrayCollection();
-        $this->questions = new ArrayCollection();
+        $this->questionTags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -91,27 +91,30 @@ class Tag
     }
 
     /**
-     * @return Collection|Question[]
+     * @return Collection|QuestionTag[]
      */
-    public function getQuestions(): Collection
+    public function getQuestionTags(): Collection
     {
-        return $this->questions;
+        return $this->questionTags;
     }
 
-    public function addQuestion(Question $question): self
+    public function addQuestionTag(QuestionTag $questionTag): self
     {
-        if (!$this->questions->contains($question)) {
-            $this->questions[] = $question;
-            $question->addTag($this);
+        if (!$this->questionTags->contains($questionTag)) {
+            $this->questionTags[] = $questionTag;
+            $questionTag->setTag($this);
         }
 
         return $this;
     }
 
-    public function removeQuestion(Question $question): self
+    public function removeQuestionTag(QuestionTag $questionTag): self
     {
-        if ($this->questions->removeElement($question)) {
-            $question->removeTag($this);
+        if ($this->questionTags->removeElement($questionTag)) {
+            // set the owning side to null (unless already changed)
+            if ($questionTag->getTag() === $this) {
+                $questionTag->setTag(null);
+            }
         }
 
         return $this;
