@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Question;
+use App\Entity\Ships;
 use App\Repository\AnswerRepository;
 use App\Repository\QuestionRepository;
 use App\Service\MarkdownService;
@@ -21,6 +22,8 @@ use function Symfony\Component\String\u;
 
 class QuestionController extends AbstractController
 {
+    public const QUESTION_COUNTER = 'questionCounter';
+
     private MarkdownService $markdownService;
     private EntityManagerInterface $em;
     private QuestionRepository $questionRepository;
@@ -63,7 +66,14 @@ class QuestionController extends AbstractController
     #[Route('/', name: 'homepage', methods: [Request::METHOD_GET])]
     public function homepage(): Response
     {
-        return $this->render('homepage/index.html.twig');
+        $questions = $this->questionRepository->findAskedOrderedByNewest();
+
+        return $this->render(
+            'homepage/index.html.twig',
+            [
+                'questions' => $questions,
+            ]
+        );
     }
 
     #[Route('/shipsAdd', name: 'add', methods: [Request::METHOD_GET])]

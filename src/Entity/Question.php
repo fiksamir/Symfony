@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\AnswerRepository;
 use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,9 +18,10 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 /**
  * @ORM\Entity(repositoryClass=QuestionRepository::class)
  */
+#[ApiResource]
 class Question
 {
-//    use TimestampableEntity;
+    use TimestampableEntity;
 
     /**
      * @ORM\Id
