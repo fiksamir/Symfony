@@ -32,9 +32,15 @@ class Tag
      */
     private $postTags;
 
+    /**
+     * @ORM\OneToMany(targetEntity=QuestionTag::class, mappedBy="tag", orphanRemoval=true, cascade={"persist"})
+     */
+    private $questionTags;
+
     public function __construct()
     {
         $this->postTags = new ArrayCollection();
+        $this->questionTags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -78,6 +84,36 @@ class Tag
             // set the owning side to null (unless already changed)
             if ($postTag->getTag() === $this) {
                 $postTag->setTag(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|QuestionTag[]
+     */
+    public function getQuestionTags(): Collection
+    {
+        return $this->questionTags;
+    }
+
+    public function addQuestionTag(QuestionTag $questionTag): self
+    {
+        if (!$this->questionTags->contains($questionTag)) {
+            $this->questionTags[] = $questionTag;
+            $questionTag->setTag($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestionTag(QuestionTag $questionTag): self
+    {
+        if ($this->questionTags->removeElement($questionTag)) {
+            // set the owning side to null (unless already changed)
+            if ($questionTag->getTag() === $this) {
+                $questionTag->setTag(null);
             }
         }
 
